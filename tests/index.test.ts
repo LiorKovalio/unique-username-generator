@@ -87,6 +87,26 @@ describe("generate-unique-username-uniqueUsernameGenerator unit tests", (): void
     });
     expect(actual).is.equal("qa");
   });
+  it("uniqueUsernameGenerator length 1 trims 2 to 1", (): void => {
+    const actual: string = uniqueUsernameGenerator({
+      dictionaries: [["qa"]],
+      length: 1
+    });
+    expect(actual).is.equal("q");
+  });
+  it("uniqueUsernameGenerator length 3 leaves 2 unchanged", (): void => {
+    const actual: string = uniqueUsernameGenerator({
+      dictionaries: [["qa"]],
+      length: 3
+    });
+    expect(actual).is.equal("qa");
+  });
+  it("uniqueUsernameGenerator default length", (): void => {
+    const actual: string = uniqueUsernameGenerator({
+      dictionaries: [["qazwsxedcrfvtgby"]]
+    });
+    expect(actual).is.equal("qazwsxedcrfvtgb");
+  });
   it("uniqueUsernameGenerator digits 1", (): void => {
     const actual: string = uniqueUsernameGenerator({
       dictionaries: [["q"], ["a"]],

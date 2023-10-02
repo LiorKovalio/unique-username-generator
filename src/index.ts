@@ -155,6 +155,8 @@ export function uniqueUsernameGenerator(config: Config): string {
     const fromDictRander = (i: number) => usableDictionaries[i][randInt(0, usableDictionaries[i].length - 1)];
     const dictionariesLength = usableDictionaries.length;
     const separator = config.separator || "";
+    const maxLength = config.length || 15;
+
     // Template-based assembly
     let username: string;
     let alreadyFormatted = false;
@@ -175,12 +177,7 @@ export function uniqueUsernameGenerator(config: Config): string {
       username = formatUsername(username, config.style ?? "lowerCase", separator);
     }
 
-    if (config.length) {
-      return username.substring(0, config.length);
-    } else {
-      return username.substring(0, 15);
-    }
-
+    return username.substring(0, maxLength);
   }
 }
 
