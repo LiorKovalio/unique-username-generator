@@ -16,6 +16,8 @@
 
 A tiny, flexible username generator for Node and browsers. Generate from email or dictionaries; control separator, style, max length, optional digits, profanity filtering, templates, deterministic seeds, and batch generation.
 
+Security note: this library generates human-friendly display names. It is not intended for security-sensitive randomness (e.g., passwords, tokens). It prefers Web Crypto when available and falls back to a non-crypto PRNG only as a last resort.
+
 [![NPM](https://nodei.co/npm/unique-username-generator.svg)](https://nodei.co/npm/unique-username-generator/)
 
 ## Installation

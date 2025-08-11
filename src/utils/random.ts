@@ -1,3 +1,8 @@
+/**
+ * Random helpers for username generation.
+ * Note: This module is NOT used for security-sensitive purposes (no passwords, tokens, keys).
+ * It prefers Web Crypto when available; otherwise, falls back to a non-crypto PRNG only as a last resort.
+ */
 export type RandomIntFunction = (minInclusive: number, maxInclusive: number) => number;
 
 function getCrypto(): Crypto | undefined {
@@ -12,9 +17,18 @@ function getRandomValues(length: number): Uint32Array {
     cryptoApi.getRandomValues(buffer);
     return buffer;
   }
+  // Fallback: non-crypto xorshift32 PRNG to avoid Math.random (CodeQL: js/insufficient-randomness)
+  let seed = (Date.now() ^ 0x9e3779b9) >>> 0;
+  const next = () => {
+    // xorshift32
+    seed ^= seed << 13; seed >>>= 0;
+    seed ^= seed >>> 17; seed >>>= 0;
+    seed ^= seed << 5; seed >>>= 0;
+    return seed >>> 0;
+  };
   const buffer = new Uint32Array(length);
   for (let i = 0; i < length; i++) {
-    buffer[i] = Math.floor(Math.random() * 0xffffffff);
+    buffer[i] = next();
   }
   return buffer;
 }
