@@ -1,4 +1,4 @@
-import { adjectives, nouns, DEFAULT_PROFANITY, generateFromEmail, uniqueUsernameGenerator, generateUsername, generateMany, generateUniqueAsync } from "../src/index";
+import { adjectives, nouns, generateFromEmail, uniqueUsernameGenerator, generateUsername, generateMany, generateUniqueAsync } from "../src/index";
 import { expect } from "chai";
 
 describe("generate-unique-username-from-email unit tests", (): void => {
