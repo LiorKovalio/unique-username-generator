@@ -10,6 +10,17 @@ function getCrypto(): Crypto | undefined {
   return g && g.crypto ? (g.crypto as Crypto) : undefined;
 }
 
+// Persistent fallback seed to avoid re-seeding within the same millisecond
+let fallbackSeed: number = (Date.now() ^ 0x9e3779b9) >>> 0;
+
+function nextFallback32(): number {
+  // xorshift32 advancing persistent state
+  fallbackSeed ^= fallbackSeed << 13; fallbackSeed >>>= 0;
+  fallbackSeed ^= fallbackSeed >>> 17; fallbackSeed >>>= 0;
+  fallbackSeed ^= fallbackSeed << 5; fallbackSeed >>>= 0;
+  return fallbackSeed >>> 0;
+}
+
 function getRandomValues(length: number): Uint32Array {
   const cryptoApi = getCrypto();
   if (cryptoApi && typeof cryptoApi.getRandomValues === "function") {
@@ -17,18 +28,9 @@ function getRandomValues(length: number): Uint32Array {
     cryptoApi.getRandomValues(buffer);
     return buffer;
   }
-  // Fallback: non-crypto xorshift32 PRNG to avoid Math.random (CodeQL: js/insufficient-randomness)
-  let seed = (Date.now() ^ 0x9e3779b9) >>> 0;
-  const next = () => {
-    // xorshift32
-    seed ^= seed << 13; seed >>>= 0;
-    seed ^= seed >>> 17; seed >>>= 0;
-    seed ^= seed << 5; seed >>>= 0;
-    return seed >>> 0;
-  };
   const buffer = new Uint32Array(length);
   for (let i = 0; i < length; i++) {
-    buffer[i] = next();
+    buffer[i] = nextFallback32();
   }
   return buffer;
 }
