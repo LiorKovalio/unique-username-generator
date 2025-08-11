@@ -17,6 +17,12 @@
     "LICENSE",
     "README.md"
   ],
+  "bin": {
+    "usernamegen": "./dist/cli.js",
+    "usergen": "./dist/cli.js",
+    "unique-username": "./dist/cli.js",
+    "uuname": "./dist/cli.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/subhamg/unique-username-generator.git"
