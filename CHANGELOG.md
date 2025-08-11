@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.2.0] - 2025-08-11
+## [1.5.0] - 2025-08-11
 
 ### Added
 - Profanity filtering enabled by default for built-in dictionaries with configurable `exclude`, `profanityList`, and `profanityOptions`.
